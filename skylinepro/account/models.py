@@ -35,8 +35,17 @@ class User(AbstractUser):
     username = None  # Remove the username field
     phone_number = models.CharField(max_length=15, blank=True, null=True,unique=True)
     email = models.EmailField(unique=True)
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    otp_expires_at = models.DateTimeField(blank=True, null=True)
 
-    USERNAME_FIELD = 'phone_number'
+    def generate_otp(self):
+        # Generate a cryptographically secure 6-digit code
+        self.otp = f"{random.SystemRandom().randint(100000, 999999)}"
+        self.otp_expires_at = timezone.now() + timedelta(minutes=5)
+        self.save()
+        return self.otp
+
+
     USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = []
