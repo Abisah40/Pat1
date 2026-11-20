@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 
+
 #register serializer for user registration
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -72,6 +73,7 @@ class PasswordVerifySerializer(serializers.Serializer):
 
 # To confirm password reset
 class PasswordResetConfirmSerializer(serializers.Serializer):
+    email = serializers.EmailField()
     new_password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
 
@@ -81,5 +83,34 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
         if new_password != confirm_password:
             raise serializers.ValidationError("Passwords do not match.")
+        return data
+
+
+
+class PasswordOTPSerializer(serializers.Serializer):
+    #email = serializers.EmailField()
+    otp = serializers.CharField(max_length=6)
+
+    def validate(self, data):
+        # email = data.get('email')
+        otp = data.get('otp')
+
+        try:
+            user = User.objects.get(otp=otp)
+            # user1 = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User with this email does not exist.")
+
+        # Check if the OTP is valid and not used
+        try:
+            otp_instance = user.passwordresetotp_set.get(otp=otp, is_used=False)
+        except User.PasswordResetOTP.DoesNotExist:
+            raise serializers.ValidationError("Invalid or expired OTP.")
+
+        # Mark the OTP as used
+        otp_instance.is_used = True
+        otp_instance.save()
+
+        data['user'] = user
         return data
 
