@@ -40,7 +40,7 @@ permission_classes=(permissions.AllowAny,),
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('account.urls')),
+    path('api/',include('account.urls')),
     path('api/',include('contact.urls')),
     path('api/',include('property.urls')),
     #path('',lambda request: redirect('/api/')),

@@ -129,26 +129,6 @@ STATIC_URL = 'static/'
 
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# REST_FRAMEWORK = {
-#     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-# }
-# SPECTACULAR_SETTINGS = {
-#     "TITLE": "Skyline API",
-#     "VERSION": "1.0.0",
-# }
-
-
-# SWAGGER_SETTINGS = {
-#     "SECURITY_DEFINITIONS": {
-#         "Bearer": {
-#             "type": "apiKey",
-#             "name": "Authorization",
-#             "in": "header",
-#         }
-#     },
-#     "DEFAULT_AUTO_SCHEMA_CLASS": "drf_yasg.openapi.SwaggerView",
-# }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',

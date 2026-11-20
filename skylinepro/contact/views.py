@@ -16,3 +16,15 @@ class ListContact(generics.ListAPIView):
     queryset = ContactForm.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [AllowAny]
+
+    #update contact view
+class UpdateContact(generics.UpdateAPIView):
+    queryset = ContactForm.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [AllowAny]
+
+    #delete contact view
+class DeleteContact(generics.DestroyAPIView):
+    queryset = ContactForm.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [AllowAny]
